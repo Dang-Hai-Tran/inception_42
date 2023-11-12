@@ -1,9 +1,12 @@
-FROM    alpine:3.18
+FROM	alpine:3.17
 
-RUN     apk update && apk upgrade &&\
-        apk add --no-cache mariadb mariadb-client
+# Install MariaDB
+RUN		apk update && apk upgrade &&\
+		apk add mariadb mariadb-client
 
-COPY    ./conf/configure-mariadb.sh /tmp/configure-mariadb.sh
-RUN     chmod +x /tmp/configure-mariadb.sh
+# Copy MariaDB configuration files
+COPY	./conf/configure-mariadb.sh /tmp/configure-mariadb.sh
+RUN		chmod +x /tmp/configure-mariadb.sh
 
-ENTRYPOINT [ "sh", "/tmp/configure-mariadb.sh" ]
+# Run MariaDB configuration script as entry point
+ENTRYPOINT	[ "sh", "/tmp/configure-mariadb.sh" ]

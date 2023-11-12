@@ -1,41 +1,38 @@
-version: '1.0'
+version: "3.7"
 
 services:
     nginx:
         container_name: nginx
-        build: ./requirements/nginx/
-        image: nginx
-        env_file:
-            - .env
+        build:          ./requirements/nginx/
+        image:          nginx:inception
+        env_file:       .env
         networks:
             - inception
         ports:
             - "443:443"
-        restart: always
+        restart:        always
         volumes:
             - wordpress-data:/var/www/html/
         depends_on:
             - wordpress
     mariadb:
         container_name: mariadb
-        build: ./requirements/mariadb/
-        image: mariadb
-        env_file:
-            - .env
+        build:          ./requirements/mariadb/
+        image:          mariadb:inception
+        env_file:       .env
         networks:
             - inception
-        restart: always
+        restart:        always
         volumes:
             - mariadb-data:/var/lib/mysql/
     wordpress:
         container_name: wordpress
-        build: ./requirements/wordpress/
-        image: wordpress
-        env_file:
-            - ./env
+        build:          ./requirements/wordpress/
+        image:          wordpress:inception
+        env_file:       .env
         networks:
             - inception
-        restart:  always
+        restart:        always
         volumes:
             - wordpress-data:/var/www/html/
         depends_on:
@@ -43,19 +40,19 @@ services:
 
 networks:
     inception:
-        name: inception
+        name:   inception
         driver: bridge
 
 volumes:
-    mariadb-data:
-        driver: local
-        driver_opts:
-            type: 'none'
-            o: 'bind'
-            device: ${DATA_PATH}/mariadb-data
-    wordpress-data:
-        driver: local
-        driver_opts:
-            type: 'none'
-            o: 'bind'
-            device: ${DATA_PATH}/wordpress-data
+  mariadb-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${DATA_PATH}/mariadb-data
+  wordpress-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${DATA_PATH}/wordpress-data
